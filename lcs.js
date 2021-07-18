@@ -1,29 +1,3 @@
-var http = require('http');
-
-http.createServer(function (req, res) {
-	if(process.argv.length > 2){
-		var arrayOfStrings = process.argv.slice(2);
-		var lengthOfArr = arrayOfStrings.length;
-		var firstWord = arrayOfStrings[0];
-		var result = "";
-		var temp = "";
-		var k = 1;
-		for(var i = 0; i < firstWord.length; i++){
-			for (var j = i + 1; j < firstWord.length + 1 ; j++) {
-				temp = firstWord.slice(i,j);
-				for(k = 1; k < lengthOfArr ; k++){
-					if(!arrayOfStrings[k].includes(temp)){
-						break;
-					}	
-				}
-				if(k == lengthOfArr && result.length < temp.length){
-					result = temp;
-				}
-			}
-		}
-		console.log(result);
-	}
-	else{
-		console.log("nothing entered");
-	}
-}).listen(8080);
+var http=require('http');
+http.createServer(function(e,s){if(process.argv.length>2){var a=process.argv.slice(2),l=a.length,f=a[0],r="",t="",k=1;for(var i=0;i<f.length;i++){for(var j=i+1;j<f.length+1;j++){t=f.slice(i,j);
+for(k=1;k<l;k++){if(!a[k].includes(t)){break;}}if(k==l&&r.length<t.length){r=t;}}}console.log(r);}else{console.log("nothing entered");}}).listen(8080);
