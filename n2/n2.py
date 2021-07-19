@@ -11,10 +11,9 @@ def main():
 	mypath = "/Users/natalliazzz/itransition course/n2/files"
 	from os import listdir
 	from os.path import isfile, join
-	onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-	for i in onlyfiles:
-		print(i)
-		print(file_contents_hash(join(mypath, f)))
+	for i in listdir(mypath):
+		if not i.startswith("."): #ignore system files
+			print(i + " " + file_contents_hash(join(mypath, i)))
 
 
 if __name__ == '__main__':
