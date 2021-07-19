@@ -5,7 +5,7 @@ def file_contents_hash(path):
 	line = file.read()
 	file.close()
 	bline = str.encode(line)
-	return hashlib.sha256(bline).hexdigest()
+	return hashlib.sha3_256(bline).hexdigest()
 
 def main():
 	from os import listdir,getcwd
