@@ -8,9 +8,9 @@ def file_contents_hash(path):
 	return hashlib.sha256(bline).hexdigest()
 
 def main():
-	mypath = "/Users/natalliazzz/itransition course/n2/files"
-	from os import listdir
-	from os.path import isfile, join
+	from os import listdir,getcwd
+	from os.path import join, abspath
+	mypath = abspath(getcwd())
 	for i in listdir(mypath):
 		if not i.startswith("."): #ignore system files
 			print(i + " " + file_contents_hash(join(mypath, i)))
