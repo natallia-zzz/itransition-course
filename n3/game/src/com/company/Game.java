@@ -15,19 +15,23 @@ public class Game {
     private String[] moves;
     private int move;
     private byte[] hmac_key;
-    private String hmac_output;
+    private byte[] hmac_output;
     private int length;
     public Game(String[] args){
         moves = args;
         this.length = args.length;
         SecureRandom rand = new SecureRandom();
-        hmac_key = rand.generateSeed(128);
+        hmac_key = rand.generateSeed(128/8);
         move = ThreadLocalRandom.current().nextInt(1, length + 1);
-        hmac_generator(hmac_key,Integer.valueOf(move).toString());
-        System.out.println("HMAC: " + hmac_output);
+        hmac_generator(Integer.valueOf(move).toString());
+        System.out.println("HMAC: " + byteArrayToHex(hmac_output));
         print(args);
     }
     public void playerMove(int plMove){
+        if(plMove < 0|| plMove > length){
+            System.out.println("move out of range");
+            return;
+        }
         System.out.println("your move:" + moves[plMove-1]);
         System.out.println("computer move:" + moves[move-1]);
         if(plMove == move){
@@ -39,14 +43,14 @@ public class Game {
         else{
             System.out.println("you lose");
         }
-        System.out.println("HMAC key: " + hmac_key.toString());
+        System.out.println("HMAC key: " + byteArrayToHex(hmac_key));
     }
-    private void hmac_generator(byte[] key, String message){
+    private void hmac_generator(String message){
         try{
             Mac sha256_hmac = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(hmac_key, "HmacSHA256");
             sha256_hmac.init(secret_key);
-            hmac_output = sha256_hmac.doFinal(message.getBytes("UTF-8")).toString();
+            hmac_output = sha256_hmac.doFinal(message.getBytes("UTF-8"));
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {
             e.printStackTrace();
         }
@@ -70,10 +74,10 @@ public class Game {
         return wins;
     }
 
-    public static boolean duplicates(final String[] zipcodelist)
+    public static boolean duplicates(final String[] List)
     {
         Set<String> lump = new HashSet<String>();
-        for (String i : zipcodelist)
+        for (String i : List)
         {
             if (lump.contains(i)) return true;
             lump.add(i);
@@ -86,5 +90,11 @@ public class Game {
             System.out.println(i+":"+args[i-1]);
         }
         System.out.println("0:exit");
+    }
+    public static String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder(a.length * 2);
+        for(byte b: a)
+            sb.append(String.format("%02X", b));
+        return sb.toString();
     }
 }

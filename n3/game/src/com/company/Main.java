@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -16,6 +18,12 @@ public class Main {
             return;
         }
         Game game = new Game(args);
-        game.playerMove(5);
+        System.out.println("enter your move");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        if(num == 0){
+            return;
+        }
+        game.playerMove(num);
     }
 }
